@@ -65,6 +65,9 @@ module.exports = {
 
       // Lấy danh sách tệp trong thư mục "backups" của bạn
       const backupDir = path.join(__dirname, '../backups');
+      if (!fs.existsSync(backupDir)) {
+        return;
+      }
       const backupFiles = fs.readdirSync(backupDir);
 
       // Tải lên từng tệp vào thư mục mới trên Google Drive
