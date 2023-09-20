@@ -50,21 +50,8 @@ module.exports = {
   },
   uploadBackupFolder: async (retryCount = 0) => {
     try {
-      // Tạo một thư mục mới trên Google Drive với tên và ngày tạo tương ứng
-      const currentDate = new Date().toISOString().replace(/:/g, '-');
-      const folderName = `Backup_${currentDate}`;
-      const folderMetadata = {
-        name: folderName,
-        mimeType: 'application/vnd.google-apps.folder',
-      };
-      const createFolder = await drive.files.create({
-        resource: folderMetadata,
-        fields: 'id',
-      });
-      const folderId = createFolder.data.id;
-
       // Lấy danh sách tệp trong thư mục "backups" của bạn
-      const backupDir = path.join(__dirname, '../backups/truyenvui');
+      const backupDir = path.join(__dirname, '../backups');
 
       const backupFiles = fs.readdirSync(backupDir);
 
@@ -84,6 +71,18 @@ module.exports = {
         }
         return; // Kết thúc hàm khi không tìm thấy tệp nào và đã thử tối đa 10 lần
       }
+      // Tạo một thư mục mới trên Google Drive với tên và ngày tạo tương ứng
+      const currentDate = new Date().toISOString().replace(/:/g, '-');
+      const folderName = `Backup_${currentDate}`;
+      const folderMetadata = {
+        name: folderName,
+        mimeType: 'application/vnd.google-apps.folder',
+      };
+      const createFolder = await drive.files.create({
+        resource: folderMetadata,
+        fields: 'id',
+      });
+      const folderId = createFolder.data.id;
 
       // Tải lên từng tệp vào thư mục mới trên Google Drive
       for (const backupFile of backupFiles) {
