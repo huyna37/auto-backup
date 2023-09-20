@@ -18,7 +18,10 @@ const backup = async () => {
         await exec(`mongodump --uri "mongodb://103.252.137.158:27018/truyenvui" --out ${backupDir}`, {
             shell: '/bin/bash'
         });
-        await uploadBackupFolder();
+
+        setTimeout(async ()=> {
+            await uploadBackupFolder();
+        }, 5000)
         console.log('Backup completed successfully.');
 
     } catch (error) {
