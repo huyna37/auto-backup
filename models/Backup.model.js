@@ -30,7 +30,7 @@ const backup = async () => {
 };
 
 // Schedule the backup function to run daily at midnight (00:00)
-cron.schedule('0 0 * * *', backup); // This schedules the backup function to run daily at midnight
+//cron.schedule('0 0 * * *', backup); // This schedules the backup function to run daily at midnight
 
 // Optionally, you can also run the backup function immediately on startup
 backup();
