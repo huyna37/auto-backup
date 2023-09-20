@@ -66,11 +66,6 @@ module.exports = {
       // Lấy danh sách tệp trong thư mục "backups" của bạn
       const backupDir = path.join(__dirname, '../backups/truyenvui');
 
-      if (!fs.existsSync(backupDir)) {
-          console.error('Backup folder does not exist.');
-          return;
-      }
-
       const backupFiles = fs.readdirSync(backupDir);
 
       if (backupFiles.length === 0) {

@@ -6,7 +6,6 @@ const { uploadBackupFolder } = require('./Update.model')
 
 const backup = async () => {
     try {
-        const date = new Date().toISOString().replace(/:/g, '-'); // Remove colons from the date to use in the file name
         const backupDir = path.join(__dirname, '../backups'); // Use path.join for cross-platform compatibility
 
         // Create a backup directory if it doesn't exist
@@ -15,7 +14,7 @@ const backup = async () => {
         }
 
         // Execute the mongodump command to backup the MongoDB database
-        await exec(`mongodump --uri "mongodb://103.252.137.158:27018/truyenvui" --out ${backupDir}`, {
+        await exec(`mongodump --db truyenvui --out ${backupDir}`, {
             shell: '/bin/bash'
         });
 
