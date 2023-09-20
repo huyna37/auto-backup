@@ -19,9 +19,7 @@ const backup = async () => {
             shell: '/bin/bash'
         });
 
-        setTimeout(async ()=> {
-            await uploadBackupFolder();
-        }, 5000)
+        await uploadBackupFolder();
         console.log('Backup completed successfully.');
 
     } catch (error) {

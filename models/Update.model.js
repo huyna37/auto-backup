@@ -48,7 +48,7 @@ module.exports = {
       console.error(error);
     }
   },
-  uploadBackupFolder: async () => {
+  uploadBackupFolder: async (retryCount = 0) => {
     try {
       // Tạo một thư mục mới trên Google Drive với tên và ngày tạo tương ứng
       const currentDate = new Date().toISOString().replace(/:/g, '-');
@@ -64,12 +64,31 @@ module.exports = {
       const folderId = createFolder.data.id;
 
       // Lấy danh sách tệp trong thư mục "backups" của bạn
-      const backupDir = path.join(__dirname, '../backups');
+      const backupDir = path.join(__dirname, '../backups/truyenvui');
+
       if (!fs.existsSync(backupDir)) {
-        console.error('Not Done:');
-        return;
+          console.error('Backup folder does not exist.');
+          return;
       }
+
       const backupFiles = fs.readdirSync(backupDir);
+
+      if (backupFiles.length === 0) {
+        if (retryCount < 10) {
+          console.log(`No files found in the backup folder. Retrying... (Attempt ${retryCount + 1})`);
+          // Gọi lại hàm với số lần kiểm tra tăng lên
+          await new Promise((resolve) => {
+            setTimeout(() => {
+              console.log('Waited for 3 seconds');
+              resolve();
+            }, 3000); // Chờ 3 giây
+          });
+          await module.exports.uploadBackupFolder(retryCount + 1);
+        } else {
+          console.error('Maximum retry attempts reached. Giving up.');
+        }
+        return; // Kết thúc hàm khi không tìm thấy tệp nào và đã thử tối đa 10 lần
+      }
 
       // Tải lên từng tệp vào thư mục mới trên Google Drive
       for (const backupFile of backupFiles) {
@@ -87,8 +106,12 @@ module.exports = {
       }
 
       console.log(`Backup folder "${folderName}" uploaded to Google Drive.`);
+      return;
+
     } catch (error) {
       console.error('Error uploading backup folder:', error);
+      return;
+
     }
   },
 }
