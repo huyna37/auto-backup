@@ -66,6 +66,7 @@ module.exports = {
       // Lấy danh sách tệp trong thư mục "backups" của bạn
       const backupDir = path.join(__dirname, '../backups');
       if (!fs.existsSync(backupDir)) {
+        console.error('Not Done:');
         return;
       }
       const backupFiles = fs.readdirSync(backupDir);

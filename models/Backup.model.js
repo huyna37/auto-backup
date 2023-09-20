@@ -7,7 +7,7 @@ const { uploadBackupFolder } = require('./Update.model')
 const backup = async () => {
     try {
         const date = new Date().toISOString().replace(/:/g, '-'); // Remove colons from the date to use in the file name
-        const backupDir = path.join(__dirname, '../'); // Use path.join for cross-platform compatibility
+        const backupDir = path.join(__dirname, '../backups'); // Use path.join for cross-platform compatibility
 
         // Create a backup directory if it doesn't exist
         if (!fs.existsSync(backupDir)) {
