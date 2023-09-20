@@ -51,7 +51,7 @@ module.exports = {
   uploadBackupFolder: async (retryCount = 0) => {
     try {
       // Lấy danh sách tệp trong thư mục "backups" của bạn
-      const backupDir = path.join(__dirname, '../backups');
+      const backupDir = path.join(__dirname, '../truyenvui');
 
       const backupFiles = fs.readdirSync(backupDir);
 
