@@ -10,8 +10,8 @@ app.use('/backup', async (req, res) => {
     res.status(200).json('ok')
 })
 
-cron.schedule('0 0 * * *', () => {
-    backup();
+cron.schedule('0 0 * * *', async () => {
+    await backup();
 });
 app.listen(3100, () => {
     console.log(`Server is running on port ${3100}`);
